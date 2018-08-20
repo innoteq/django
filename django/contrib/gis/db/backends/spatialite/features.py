@@ -1,5 +1,4 @@
 from django.contrib.gis.db.backends.base.features import BaseSpatialFeatures
-from django.contrib.gis.geos import geos_version_info
 from django.db.backends.sqlite3.features import \
     DatabaseFeatures as SQLiteDatabaseFeatures
 from django.utils.functional import cached_property
@@ -19,4 +18,4 @@ class DatabaseFeatures(BaseSpatialFeatures, SQLiteDatabaseFeatures):
 
     @cached_property
     def supports_3d_storage(self):
-        return geos_version_info()['version'] >= '3.3'
+        return bool(self.connection.ops.lwgeom_version())
